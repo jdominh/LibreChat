@@ -72,6 +72,17 @@ endpoints:
   excludedIds: ["asst_excludedAssistantId"]
   retrievalModels: ["gpt-4-turbo-preview"]
   capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
+  agents:
+    disableBuilder: false
+    recursionLimit: 50
+    maxRecursionLimit: 100
+    capabilities:
+      - "execute_code"
+      - "file_search"
+      - "actions"
+      - "tools"
+      - "ocr"
+      - "chain"
   custom:
     - name: 'groq'
       apiKey: '${GROQ_API_KEY}'
