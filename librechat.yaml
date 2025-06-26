@@ -2,7 +2,7 @@ version: 1.2.1
 cache: true
 
 interface:
-  customWelcome: "Welcome to LibreChat! Enjoy your experience."
+  customWelcome: "Welcome to LibreChat! Upload documents to chat with your files using RAG."
   privacyPolicy:
     externalUrl: 'https://librechat.ai/privacy-policy'
     openNewTab: true
@@ -13,38 +13,8 @@ interface:
     modalTitle: "Terms of Service for LibreChat"
     modalContent: |
       # Terms and Conditions for LibreChat
-
       *Effective Date: February 18, 2024*
-
-      Welcome to LibreChat, the informational website for the open-source AI chat platform, available at https://librechat.ai. These Terms of Service ("Terms") govern your use of our website and the services we offer. By accessing or using the Website, you agree to be bound by these Terms and our Privacy Policy, accessible at https://librechat.ai//privacy.
-
-      ## 1. Ownership
-
-      Upon purchasing a package from LibreChat, you are granted the right to download and use the code for accessing an admin panel for LibreChat. While you own the downloaded code, you are expressly prohibited from reselling, redistributing, or otherwise transferring the code to third parties without explicit permission from LibreChat.
-
-      ## 2. User Data
-
-      We collect personal data, such as your name, email address, and payment information, as described in our Privacy Policy.
-
-      ## 3. Non-Personal Data Collection
-
-      The Website uses cookies to enhance user experience, analyze site usage, and facilitate certain functionalities.
-
-      ## 4. Use of the Website
-
-      You agree to use the Website only for lawful purposes and in a manner that does not infringe the rights of others.
-
-      ## 5. Governing Law
-
-      These Terms shall be governed by the laws of the United States.
-
-      ## 6. Changes to the Terms
-
-      We reserve the right to modify these Terms at any time.
-
-      ## 7. Contact Information
-
-      If you have any questions, contact us at contact@librechat.ai.
+      Welcome to LibreChat.
 
   endpointsMenu: true
   modelSelect: true
@@ -65,25 +35,25 @@ actions:
     - "librechat.ai"
     - "google.com"
 
+# REMOVE ALL THE INVALID KEYS - Keep only valid endpoint configurations
 endpoints:
-  disableBuilder: false
-  pollIntervalMs: 3000
-  timeoutMs: 180000
-  excludedIds: ["asst_excludedAssistantId"]
-  retrievalModels: ["gpt-4-turbo-preview"]
-  capabilities: ["code_interpreter", "retrieval", "actions", "tools", "image_vision"]
-  agents:
-    disableBuilder: false
-    recursionLimit: 50
-    maxRecursionLimit: 100
-    capabilities:
-      - "execute_code"
-      - "file_search"
-      - "actions"
-      - "tools"
-      - "ocr"
-      - "chain"
   custom:
+    - name: 'RAG-OpenAI'
+      apiKey: '${OPENAI_API_KEY}'
+      baseURL: '${RAG_OPENAI_BASEURL}'
+      models:
+        default:
+          - 'gpt-4o-mini'
+          - 'gpt-4o'
+          - 'gpt-3.5-turbo'
+        fetch: false
+      titleConvo: true
+      titleModel: 'gpt-4o-mini'
+      summarize: false
+      summaryModel: 'gpt-4o-mini'
+      forcePrompt: false
+      modelDisplayLabel: 'RAG-Enabled OpenAI'
+
     - name: 'groq'
       apiKey: '${GROQ_API_KEY}'
       baseURL: 'https://api.groq.com/openai/v1/'
@@ -159,16 +129,33 @@ fileConfig:
       supportedMimeTypes:
         - "image/.*"
         - "application/pdf"
+        - "text/plain"
+        - "text/csv"
 
     openAI:
-      disabled: true
+      disabled: false
+      fileLimit: 10
+      fileSizeLimit: 50
+      totalSizeLimit: 100
+      supportedMimeTypes:
+        - "application/pdf"
+        - "text/plain"
+        - "text/csv"
+
+    RAG-OpenAI:
+      fileLimit: 10
+      fileSizeLimit: 50
+      totalSizeLimit: 100
+      supportedMimeTypes:
+        - "application/pdf"
+        - "text/plain"
+        - "text/csv"
+        - "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
     default:
       totalSizeLimit: 20
-
-    YourCustomEndpointName:
-      fileLimit: 2
-      fileSizeLimit: 5
+      fileLimit: 5
+      fileSizeLimit: 10
 
   serverFileSizeLimit: 100
   avatarSizeLimit: 2
