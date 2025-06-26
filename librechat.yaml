@@ -35,7 +35,7 @@ actions:
     - "librechat.ai"
     - "google.com"
 
-# REMOVE ALL THE INVALID KEYS - Keep only valid endpoint configurations
+# CLEAN ENDPOINTS SECTION - Remove all invalid keys
 endpoints:
   custom:
     - name: 'RAG-OpenAI'
